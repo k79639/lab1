@@ -56,14 +56,17 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _elapsedMilliseconds = 0;
+  int _elapsedSeconds = 0;
 
   // create the timer object
   final stopwatch = Stopwatch();
 
-
   void _startTimer() {
     setState(() {
+      
+      // reset the elapsed seconds
+      stopwatch.reset();
+
       // start timer
       stopwatch.start();
 
@@ -73,7 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
       Timer.periodic(const Duration(milliseconds: 100), (timer) {
         if (stopwatch.isRunning) {
           setState(() {
-            _elapsedMilliseconds = stopwatch.elapsedMilliseconds ~/ 1000;
+            _elapsedSeconds = stopwatch.elapsedMilliseconds ~/ 1000;
           });
         } else {
           timer.cancel();
@@ -81,6 +84,14 @@ class _MyHomePageState extends State<MyHomePage> {
       });
     });
   }
+
+  void _stopTimer() {
+    setState(() {
+      // stop the timer
+      stopwatch.stop();
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -117,19 +128,22 @@ class _MyHomePageState extends State<MyHomePage> {
           // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
           // action in the IDE, or press "p" in the console), to see the
           // wireframe for each widget.
-          mainAxisAlignment: .center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Text('Timer', textScaleFactor: 2,),
             Text(
-              '$_elapsedMilliseconds',
+              '$_elapsedSeconds',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                ElevatedButton(onPressed: _startTimer, child: const Icon(Icons.play_circle))
-              ],
-            )
+            
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              ElevatedButton(onPressed: _startTimer, child: const Icon(Icons.play_circle)),
+              const SizedBox(width: 20),
+              ElevatedButton(onPressed: _stopTimer, child: const Icon(Icons.stop_circle)),
+            ],
+          )
           ],
         ),
       ),
