@@ -58,7 +58,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _elapsedSeconds = 0;
 
-  // create the timer object
+  // create the stopwatch object
   final stopwatch = Stopwatch();
 
   void _startTimer() {
@@ -135,17 +135,23 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_elapsedSeconds',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
-            
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              ElevatedButton(onPressed: _startTimer, child: const Icon(Icons.play_circle)),
-              const SizedBox(width: 20),
-              ElevatedButton(onPressed: _stopTimer, child: const Icon(Icons.stop_circle)),
-            ],
-          )
           ],
         ),
+      ),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          // if stopwatch is not running show start button else show stop button
+          stopwatch.isRunning? FloatingActionButton(
+            onPressed: _stopTimer,
+            tooltip: 'Stop',
+            child: const Icon(Icons.stop),
+          ): FloatingActionButton(
+            onPressed: _startTimer,
+            tooltip: 'Start',
+            child: const Icon(Icons.play_arrow),
+          ), 
+        ],
       ),
     );
   }
