@@ -130,7 +130,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('Timer', textScaleFactor: 2,),
+            const Text('Timer :', textScaleFactor: 2,),
             Text(
               '$_elapsedSeconds',
               style: Theme.of(context).textTheme.headlineMedium,
