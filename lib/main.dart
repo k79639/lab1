@@ -145,7 +145,7 @@ class _MyHomePageState extends State<MyHomePage> {
           stopwatch.isRunning? FloatingActionButton(
             onPressed: _stopTimer,
             tooltip: 'Stop',
-            child: const Icon(Icons.stop),
+            child: const Icon(Icons.stop, color: Colors.red,),
           ): FloatingActionButton(
             onPressed: _startTimer,
             tooltip: 'Start',
