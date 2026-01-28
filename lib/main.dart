@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
 
 void main() {
   runApp(const MyApp());
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: .fromSeed(seedColor: Colors.blueAccent),
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
@@ -55,16 +56,29 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  int _elapsedMilliseconds = 0;
 
-  void _incrementCounter() {
+  // create the timer object
+  final stopwatch = Stopwatch();
+
+
+  void _startTimer() {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
+      // start timer
+      stopwatch.start();
+
+      // get the seconds elapsed
+      // convert the milliseconds to seconds
+      // Auto refresh every second
+      Timer.periodic(const Duration(milliseconds: 100), (timer) {
+        if (stopwatch.isRunning) {
+          setState(() {
+            _elapsedMilliseconds = stopwatch.elapsedMilliseconds ~/ 1000;
+          });
+        } else {
+          timer.cancel();
+        }
+      });
     });
   }
 
@@ -84,7 +98,7 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: Text('Lab N1'),
       ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
@@ -105,15 +119,15 @@ class _MyHomePageState extends State<MyHomePage> {
           // wireframe for each widget.
           mainAxisAlignment: .center,
           children: [
-            const Text('You have pushed the button this many times:'),
+            const Text('Timer', textScaleFactor: 2,),
             Text(
-              '$_counter',
+              '$_elapsedMilliseconds',
               style: Theme.of(context).textTheme.headlineMedium,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                ElevatedButton(onPressed: _incrementCounter, child: const Icon(Icons.not_started))
+                ElevatedButton(onPressed: _startTimer, child: const Icon(Icons.play_circle))
               ],
             )
           ],
